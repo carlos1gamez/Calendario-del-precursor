@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario del Precursor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1><i class="fas fa-calendar-alt"></i> Calendario del Precursor</h1>
+            <div class="user-info">
+                <span id="current-month">Mes Actual</span>
+            </div>
+        </header>
+
+        <!-- Panel de Control -->
+        <section class="control-panel">
+            <div class="config-section">
+                <h3><i class="fas fa-cog"></i> Configuración Mensual</h3>
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label for="precursor-type">Tipo de Precursorado:</label>
+                        <select id="precursor-type">
+                            <option value="15">Auxiliar - 15 horas</option>
+                            <option value="30">Auxiliar - 30 horas</option>
+                            <option value="50" selected>Regular - 50 horas</option>
+                            <option value="70">Especial - 70 horas</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    <div class="config-item" id="custom-hours-container" style="display: none;">
+                        <label for="custom-hours">Horas Personalizadas:</label>
+                        <input type="number" id="custom-hours" min="1" max="200" value="50">
+                    </div>
+                    <div class="config-item">
+                        <button id="save-config" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Configuración
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumen -->
+            <div class="summary-section">
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Meta Mensual</h4>
+                            <span id="monthly-goal">50</span> horas
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Horas Realizadas</h4>
+                            <span id="hours-done">0</span> horas
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Horas Restantes</h4>
+                            <span id="hours-remaining">50</span> horas
+                        </div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h4>Progreso</h4>
+                            <span id="progress-percent">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Navegación del Mes -->
+        <section class="month-navigation">
+            <button id="prev-month" class="btn btn-secondary">
+                <i class="fas fa-chevron-left"></i> Mes Anterior
+            </button>
+            <h2 id="current-month-display">Febrero 2024</h2>
+            <button id="next-month" class="btn btn-secondary">
+                Mes Siguiente <i class="fas fa-chevron-right"></i>
+            </button>
+        </section>
+
+        <!-- Calendario -->
+        <section class="calendar-section">
+            <div class="calendar-header">
+                <div class="day-header">Dom</div>
+                <div class="day-header">Lun</div>
+                <div class="day-header">Mar</div>
+                <div class="day-header">Mié</div>
+                <div class="day-header">Jue</div>
+                <div class="day-header">Vie</div>
+                <div class="day-header">Sáb</div>
+            </div>
+            <div id="calendar-grid" class="calendar-grid">
+                <!-- El calendario se generará dinámicamente -->
+            </div>
+        </section>
+
+        <!-- Modal para agregar horas -->
+        <div id="hours-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Registrar Horas de Servicio</h3>
+                    <button class="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="selected-date">
+                        <i class="fas fa-calendar-day"></i>
+                        <span id="modal-date">Fecha seleccionada</span>
+                    </div>
+                    <div class="hours-input">
+                        <label for="hours-count">Horas de servicio:</label>
+                        <input type="number" id="hours-count" min="0" max="12" step="0.5" value="1">
+                        <small>Puedes usar decimales (ej: 1.5, 2.75)</small>
+                    </div>
+                    <div class="notes-input">
+                        <label for="hours-notes">Notas (opcional):</label>
+                        <textarea id="hours-notes" placeholder="Ej: Predicación matutina, Revisitas, Estudio bíblico, etc."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="delete-hours" class="btn btn-danger" style="display: none;">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                    <button id="save-hours" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Horas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/Storage.js"></script>
+    <script src="js/calendario.js"></script>
+    <script src="js/App.js"></script>
+</body>
+</html>
